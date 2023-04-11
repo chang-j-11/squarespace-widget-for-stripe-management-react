@@ -310,10 +310,6 @@ app.get('/success', async (req, res) => {
   res.send(session);
 });
 
-app.get('/cancel', async (req, res) => {
-  res.send('Cancel Endpoint Hit');
-});
-
 app.listen(app.get('port'), function () {
   console.log('Node app is running on port', app.get('port'));
 });
