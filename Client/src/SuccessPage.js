@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
+BACKEND_API_BASE_URL = 'https://otr-stripe-express.onrender.com';
+
 const SuccessPage = () => {
   const location = useLocation();
   const [paymentDetails, setPaymentDetails] = useState(null);
@@ -12,7 +14,9 @@ const SuccessPage = () => {
     const isOTR = searchParams.get('isOTR');
 
     // Make a request to the backend to retrieve payment details
-    fetch(`/success?session_id=${sessionId}&isOTR=${isOTR}`)
+    fetch(
+      BACKEND_API_BASE_URL + `/success?session_id=${sessionId}&isOTR=${isOTR}`
+    )
       .then((response) => response.json())
       .then((data) => setPaymentDetails(data))
       .catch((error) => console.error(error));
