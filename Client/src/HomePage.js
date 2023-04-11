@@ -96,7 +96,9 @@ const HomePage = () => {
 
     const successUrl = `${window.location.origin}/success?session_id={CHECKOUT_SESSION_ID}&isOTR=${isOTR}`;
     // const cancelUrl = `${window.location.origin}/cancel`;
-    const cancelUrl = `http://www.otrlivingwater.org/giving`;
+    const cancelUrl = isOTR
+      ? `http://www.otrlivingwater.org/giving`
+      : `https://www.aabehayaathellas.org/take-action`;
 
     var key = isOTR
       ? 'pk_live_omFEyE2DE0tcVCnGOvzp0sAJ00dCLqc2S1'
