@@ -121,7 +121,8 @@ const HomePage = () => {
       .then((response) => response.json())
       .then((session) => {
         // Redirect the user to the checkout page
-        window.location.href = session.url;
+        // window.location.href = session.url;
+        window.open(session.url);
       })
       .catch((error) => {
         console.error(error);
@@ -214,14 +215,15 @@ const HomePage = () => {
             Start Subscription / Payment
           </Button>
           <TextField
-            label='Donation Amount'
+            label='$ Amount'
             type='number'
             value={amount}
-            sx={{ margin: 1 }}
+            sx={{ margin: 1, width: 1 / 5 }}
             onChange={(e) => setAmount(parseFloat(e.target.value))}
             size='small'
             error={amountError !== ''}
             helperText={amountError}
+            // inputProps={{ maxLength: 5 }}
           />
           <FormGroup>
             <FormControlLabel
@@ -230,7 +232,7 @@ const HomePage = () => {
                   checked={isMonthly}
                   onChange={(e) => setIsMonthly(e.target.checked)}
                   color='secondary'
-                  sx={{ margin: 1 }}
+                  sx={{ my: 1 }}
                 />
               }
               label='Monthly'
@@ -242,7 +244,7 @@ const HomePage = () => {
           <Button
             color='primary'
             variant='contained'
-            size='large'
+            size='medium'
             sx={{ margin: 1 }}
             onClick={handleManageSubscription}
           >
