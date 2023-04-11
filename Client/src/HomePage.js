@@ -131,6 +131,7 @@ const HomePage = () => {
   };
 
   const handleManageSubscription = async (e) => {
+    setEmailSent(false);
     console.log('this is isOTR, ', isOTR);
     setError('');
     if (userEmail.trim() === '') {
