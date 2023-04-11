@@ -1,10 +1,16 @@
 var STRIPE_KEYS = {
   //'pk_test_*': 'sk_test_*',
   //'pk_live_*': 'sk_live_*'
+  // First two are OTR's
   pk_live_omFEyE2DE0tcVCnGOvzp0sAJ00dCLqc2S1:
     'sk_live_iCsrsoPhGJLNKSq8FSkFne0l008z3dcHvN',
   pk_test_IhjSXWyCUV1z477J2hIkSZ3a00agjA0zWQ:
     'sk_test_YkOUfneFFM034yrACr7ELnlg00AlcJyXRR',
+  //Last two are Aabe Hayaats
+  pk_live_KdrRmdy7ROe9s5mH1NtP29y300sTnjo38i:
+    'sk_live_ezOpb03dN8SjEFFJiVEZYtpS00p3rdPbJz',
+  pk_test_49KyjiTD5es7O7pvUbDnOSxE00C92Q2WfQ:
+    'sk_test_j98Fa7r2H2VrJcQgtKlVhoVY00xa9o3Y1s',
 };
 
 var express = require('express');
@@ -126,109 +132,109 @@ app.post('/create-customer-portal-session', (request, response) => {
 
 //customer portal endpoint END
 
-app.post('/stripe/charge', function (request, response) {
-  if (request.body.token && request.body.key) {
-    console.log('charging ' + request.body.email);
+// app.post('/stripe/charge', function (request, response) {
+//   if (request.body.token && request.body.key) {
+//     console.log('charging ' + request.body.email);
 
-    var stripe = require('stripe')(STRIPE_KEYS[request.body.key]);
-    stripe.charges
-      .create({
-        amount: request.body.amount,
-        currency: 'usd',
-        source: request.body.token,
-        description: request.body.description,
-        receipt_email: request.body.email,
-      })
-      .then(
-        function (confirm) {
-          response.json(confirm);
-        },
-        function (err) {
-          response.status(500).json(err);
-        }
-      );
-  } else {
-    response.status(400).json({ message: 'send a token' });
-  }
-});
+//     var stripe = require('stripe')(STRIPE_KEYS[request.body.key]);
+//     stripe.charges
+//       .create({
+//         amount: request.body.amount,
+//         currency: 'usd',
+//         source: request.body.token,
+//         description: request.body.description,
+//         receipt_email: request.body.email,
+//       })
+//       .then(
+//         function (confirm) {
+//           response.json(confirm);
+//         },
+//         function (err) {
+//           response.status(500).json(err);
+//         }
+//       );
+//   } else {
+//     response.status(400).json({ message: 'send a token' });
+//   }
+// });
 
-app.post('/stripe/subscribe', function (request, response) {
-  if (request.body.token && request.body.key) {
-    console.log('subscribing ' + request.body.email);
-    console.log('This is request.body ' + request.body.name); //undefined
+// app.post('/stripe/subscribe', function (request, response) {
+//   if (request.body.token && request.body.key) {
+//     console.log('subscribing ' + request.body.email);
+//     console.log('This is request.body ' + request.body.name); //undefined
 
-    var stripe = require('stripe')(STRIPE_KEYS[request.body.key]);
-    stripe.customers
-      .create({
-        quantity: parseInt(request.body.amount),
-        plan: 'donation',
-        name: request.body.name, //jerry edit
-        email: request.body.email,
-        source: request.body.token,
-        description: request.body.description,
-        //jerry edit start
-        address: {
-          line1: request.body.addressline1,
-          city: request.body.city,
-          country: request.body.country,
-          postal_code: request.body.zip,
-          state: request.body.state,
-        },
-        //jerry edit end
-      })
-      .then(
-        function (confirm) {
-          response.json(confirm);
-        },
-        function (err) {
-          response.status(500).json(err);
-        }
-      );
-  } else {
-    response.status(400).json({ message: 'send a token' });
-  }
-});
+//     var stripe = require('stripe')(STRIPE_KEYS[request.body.key]);
+//     stripe.customers
+//       .create({
+//         quantity: parseInt(request.body.amount),
+//         plan: 'donation',
+//         name: request.body.name, //jerry edit
+//         email: request.body.email,
+//         source: request.body.token,
+//         description: request.body.description,
+//         //jerry edit start
+//         address: {
+//           line1: request.body.addressline1,
+//           city: request.body.city,
+//           country: request.body.country,
+//           postal_code: request.body.zip,
+//           state: request.body.state,
+//         },
+//         //jerry edit end
+//       })
+//       .then(
+//         function (confirm) {
+//           response.json(confirm);
+//         },
+//         function (err) {
+//           response.status(500).json(err);
+//         }
+//       );
+//   } else {
+//     response.status(400).json({ message: 'send a token' });
+//   }
+// });
 
-app.post('/stripe/unsubscribe', function (request, response) {
-  var email = request.body.email;
-  if (email && request.body.key) {
-    console.log('looking for customer ' + email);
+// app.post('/stripe/unsubscribe', function (request, response) {
+//   var email = request.body.email;
+//   if (email && request.body.key) {
+//     console.log('looking for customer ' + email);
 
-    var stripe = require('stripe')(STRIPE_KEYS[request.body.key]);
-    stripe.customers
-      .list({
-        limit: 100,
-      })
-      .then(
-        function (customers) {
-          for (var i = 0; i < customers.data.length; i++) {
-            console.log('looking at ', customers.data[i].email);
+//     var stripe = require('stripe')(STRIPE_KEYS[request.body.key]);
+//     stripe.customers
+//       .list({
+//         limit: 100,
+//       })
+//       .then(
+//         function (customers) {
+//           for (var i = 0; i < customers.data.length; i++) {
+//             console.log('looking at ', customers.data[i].email);
 
-            if (customers.data[i].email === email) {
-              stripe.customers.del(customers.data[i].id).then(
-                function (confirm) {
-                  response.json(confirm);
-                },
-                function (err) {
-                  response.status(500).json(err);
-                }
-              );
-              break; // one deletion is enough
-            }
-          }
-          if (i == customers.data.length) {
-            // couldnt find anything
-            response.status(500).json({ message: email + ' not found' });
-          }
-        },
-        function (err) {
-          response.status(500).json(err);
-        }
-      );
-  } else {
-    response.status(500).json({ message: 'send email as param' });
-  }
-});
+//             if (customers.data[i].email === email) {
+//               stripe.customers.del(customers.data[i].id).then(
+//                 function (confirm) {
+//                   response.json(confirm);
+//                 },
+//                 function (err) {
+//                   response.status(500).json(err);
+//                 }
+//               );
+//               break; // one deletion is enough
+//             }
+//           }
+//           if (i == customers.data.length) {
+//             // couldnt find anything
+//             response.status(500).json({ message: email + ' not found' });
+//           }
+//         },
+//         function (err) {
+//           response.status(500).json(err);
+//         }
+//       );
+//   } else {
+//     response.status(500).json({ message: 'send email as param' });
+//   }
+// });
 
 app.post('/email', function (request, response) {
   console.log('Server side email code begins');
@@ -265,6 +271,43 @@ app.post('/email', function (request, response) {
       response.send({ status: 200, email: info.accepted[0] });
     }
   });
+});
+
+//creating checkout session
+app.post('/create-checkout-session', async (req, res) => {
+  try {
+    const { mode, lineItems, successUrl, cancelUrl, key } = req.body;
+    var stripe = require('stripe')(STRIPE_KEYS[key]);
+
+    const session = await stripe.checkout.sessions.create({
+      mode,
+      payment_method_types: ['card'],
+      line_items: lineItems,
+      success_url: successUrl,
+      cancel_url: cancelUrl,
+      custom_text: {
+        submit: { message: 'Thank you very much for Supporting our Ministry!' },
+      },
+    });
+
+    res.json({ url: session.url });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to create checkout session' });
+  }
+});
+
+app.get('/success', async (req, res) => {
+  var key = req.query.isOTR
+    ? 'sk_live_iCsrsoPhGJLNKSq8FSkFne0l008z3dcHvN'
+    : 'sk_live_ezOpb03dN8SjEFFJiVEZYtpS00p3rdPbJz';
+  // var key = 'sk_test_YkOUfneFFM034yrACr7ELnlg00AlcJyXRR';
+  var stripe = require('stripe')(key); //test mode
+  const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
+  const customer = await stripe.customers.retrieve(session.customer);
+  console.log('this is sessions', session);
+  console.log('this is customer', customer);
+  res.send(session);
 });
 
 app.listen(app.get('port'), function () {
