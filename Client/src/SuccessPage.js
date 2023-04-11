@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-BACKEND_API_BASE_URL = 'https://otr-stripe-express.onrender.com';
+var BACKEND_API_BASE_URL = 'https://otr-stripe-express.onrender.com';
 
 const SuccessPage = () => {
   const location = useLocation();

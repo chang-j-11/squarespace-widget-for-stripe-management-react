@@ -12,7 +12,7 @@ import React, { useState } from 'react';
 
 import { createTheme } from '@mui/material/styles';
 
-BACKEND_API_BASE_URL = 'https://otr-stripe-express.onrender.com';
+var BACKEND_API_BASE_URL = 'https://otr-stripe-express.onrender.com';
 
 const theme = createTheme({
   status: {
