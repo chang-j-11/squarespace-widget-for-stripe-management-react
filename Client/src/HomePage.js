@@ -194,6 +194,7 @@ const HomePage = () => {
       console.log('This is email data, ', data);
       if (data.status === 200) {
         setEmailSent(true);
+        setPortalUrl('');
       }
 
       // window.open(data.portalUrl);
@@ -275,20 +276,21 @@ const HomePage = () => {
               >
                 Get Link to Customer Portal
               </Button>
-              <div>
-                {emailSent ? (
-                  <Box sx={{ m: 1 }}>
-                    Email Sent to <b>{userEmail}</b> ! Please check your email
-                    for link to Customer Portal. Thank you!
-                  </Box>
-                ) : (
-                  <></>
-                )}
-              </div>
             </div>
           ) : (
             <></>
           )}
+
+          <div>
+            {emailSent ? (
+              <Box sx={{ m: 1 }}>
+                Email Sent to <b>{userEmail}</b> ! Please check your email for
+                link to Customer Portal. Thank you!
+              </Box>
+            ) : (
+              <></>
+            )}
+          </div>
         </div>
       </ThemeProvider>
     </div>
