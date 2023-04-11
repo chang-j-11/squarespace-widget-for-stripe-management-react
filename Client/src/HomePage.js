@@ -95,7 +95,8 @@ const HomePage = () => {
     }
 
     const successUrl = `${window.location.origin}/success?session_id={CHECKOUT_SESSION_ID}&isOTR=${isOTR}`;
-    const cancelUrl = `${window.location.origin}/cancel`;
+    // const cancelUrl = `${window.location.origin}/cancel`;
+    const cancelUrl = `http://www.otrlivingwater.org/giving`;
 
     var key = isOTR
       ? 'pk_live_omFEyE2DE0tcVCnGOvzp0sAJ00dCLqc2S1'
@@ -167,7 +168,7 @@ const HomePage = () => {
       console.error(error);
       setPortalUrl('');
       setError(
-        'Subscription with provided email not found, please check and re-enter email'
+        'Email not found, please re-enter email and click "Manage Subscription" again'
       );
     }
   };
