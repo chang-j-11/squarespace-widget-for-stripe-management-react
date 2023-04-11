@@ -14,6 +14,7 @@ const App = () => {
       <Routes>
         <Route exact path='/' element={<HomePage />} />
         <Route path='/success' element={<SuccessPage />} />
+        <Route path='/cancel' element={<HomePage />} />
         <Route path='*' element={<Navigate to='/' />} />
       </Routes>
     </Router>

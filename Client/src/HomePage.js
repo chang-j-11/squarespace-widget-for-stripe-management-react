@@ -12,8 +12,6 @@ import React, { useState } from 'react';
 
 import { createTheme } from '@mui/material/styles';
 
-var BACKEND_API_BASE_URL = 'https://otr-stripe-express.onrender.com';
-
 const theme = createTheme({
   status: {
     danger: '#e53e3e',
@@ -103,20 +101,23 @@ const HomePage = () => {
       ? 'pk_live_omFEyE2DE0tcVCnGOvzp0sAJ00dCLqc2S1'
       : 'pk_live_KdrRmdy7ROe9s5mH1NtP29y300sTnjo38i';
 
-    fetch(BACKEND_API_BASE_URL + '/create-checkout-session', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        mode,
-        lineItems,
-        successUrl,
-        cancelUrl,
-        key: key,
-        // key: 'pk_test_IhjSXWyCUV1z477J2hIkSZ3a00agjA0zWQ',
-      }),
-    })
+    fetch(
+      process.env.REACT_APP_BACKEND_API_BASE_URL + '/create-checkout-session',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          mode,
+          lineItems,
+          successUrl,
+          cancelUrl,
+          key: key,
+          // key: 'pk_test_IhjSXWyCUV1z477J2hIkSZ3a00agjA0zWQ',
+        }),
+      }
+    )
       .then((response) => response.json())
       .then((session) => {
         // Redirect the user to the checkout page
@@ -145,7 +146,8 @@ const HomePage = () => {
       urlencoded.append('email', userEmail);
       urlencoded.append('key', key);
       const response = await fetch(
-        BACKEND_API_BASE_URL + '/create-customer-portal-session',
+        process.env.REACT_APP_BACKEND_API_BASE_URL +
+          '/create-customer-portal-session',
         {
           method: 'POST',
           headers: {
@@ -175,13 +177,16 @@ const HomePage = () => {
       urlencoded.append('email', userEmail);
       urlencoded.append('portal_url', portalUrl);
 
-      const response = await fetch(BACKEND_API_BASE_URL + '/email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: urlencoded,
-      });
+      const response = await fetch(
+        process.env.REACT_APP_BACKEND_API_BASE_URL + '/email',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: urlencoded,
+        }
+      );
 
       const data = await response.json();
       console.log('This is email data, ', data);
