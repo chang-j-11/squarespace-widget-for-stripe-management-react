@@ -98,7 +98,7 @@ const HomePage = () => {
     const cancelUrl = `${window.location.origin}/cancel`;
 
     var key = isOTR
-      ? 'sk_live_iCsrsoPhGJLNKSq8FSkFne0l008z3dcHvN'
+      ? 'pk_live_omFEyE2DE0tcVCnGOvzp0sAJ00dCLqc2S1'
       : 'pk_live_KdrRmdy7ROe9s5mH1NtP29y300sTnjo38i';
 
     fetch('/create-checkout-session', {
@@ -135,7 +135,7 @@ const HomePage = () => {
       return;
     }
     var key = isOTR
-      ? 'sk_live_iCsrsoPhGJLNKSq8FSkFne0l008z3dcHvN'
+      ? 'pk_live_omFEyE2DE0tcVCnGOvzp0sAJ00dCLqc2S1'
       : 'pk_live_KdrRmdy7ROe9s5mH1NtP29y300sTnjo38i';
 
     try {
