@@ -12,6 +12,8 @@ import React, { useState } from 'react';
 
 import { createTheme } from '@mui/material/styles';
 
+BACKEND_API_BASE_URL = 'https://otr-stripe-express.onrender.com';
+
 const theme = createTheme({
   status: {
     danger: '#e53e3e',
@@ -101,7 +103,7 @@ const HomePage = () => {
       ? 'pk_live_omFEyE2DE0tcVCnGOvzp0sAJ00dCLqc2S1'
       : 'pk_live_KdrRmdy7ROe9s5mH1NtP29y300sTnjo38i';
 
-    fetch('/create-checkout-session', {
+    fetch(BACKEND_API_BASE_URL + '/create-checkout-session', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -142,13 +144,16 @@ const HomePage = () => {
       var urlencoded = new URLSearchParams();
       urlencoded.append('email', userEmail);
       urlencoded.append('key', key);
-      const response = await fetch('/create-customer-portal-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: urlencoded,
-      });
+      const response = await fetch(
+        BACKEND_API_BASE_URL + '/create-customer-portal-session',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: urlencoded,
+        }
+      );
 
       const data = await response.json();
       // window.location.href = data.url;
@@ -170,7 +175,7 @@ const HomePage = () => {
       urlencoded.append('email', userEmail);
       urlencoded.append('portal_url', portalUrl);
 
-      const response = await fetch('/email', {
+      const response = await fetch(BACKEND_API_BASE_URL + '/email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
