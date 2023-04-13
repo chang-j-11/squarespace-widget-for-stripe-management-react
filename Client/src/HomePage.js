@@ -55,6 +55,8 @@ const HomePage = () => {
     window.location.href.includes('otr') ||
       window.location.href.includes('localhost')
   );
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingStartSub, setIsLoadingStartSub] = useState(false);
 
   // const handleGiveMonthly = async (e) => {
   //   window.StripeCheckout.configure({
@@ -104,6 +106,7 @@ const HomePage = () => {
       ? 'pk_live_omFEyE2DE0tcVCnGOvzp0sAJ00dCLqc2S1'
       : 'pk_live_KdrRmdy7ROe9s5mH1NtP29y300sTnjo38i';
 
+    setIsLoadingStartSub(true);
     fetch(
       process.env.REACT_APP_BACKEND_API_BASE_URL + '/create-checkout-session',
       {
@@ -123,11 +126,13 @@ const HomePage = () => {
     )
       .then((response) => response.json())
       .then((session) => {
+        setIsLoadingStartSub(false);
         // Redirect the user to the checkout page
         // window.location.href = session.url;
         window.open(session.url);
       })
       .catch((error) => {
+        setIsLoadingStartSub(false);
         console.error(error);
       });
   };
@@ -150,6 +155,7 @@ const HomePage = () => {
       var urlencoded = new URLSearchParams();
       urlencoded.append('email', userEmail);
       urlencoded.append('key', key);
+      setIsLoading(true);
       const response = await fetch(
         process.env.REACT_APP_BACKEND_API_BASE_URL +
           '/create-customer-portal-session',
@@ -161,10 +167,10 @@ const HomePage = () => {
           body: urlencoded,
         }
       );
-
       const data = await response.json();
       // window.location.href = data.url;
       setPortalUrl(data.url);
+      setIsLoading(false);
 
       console.log('this is data, ', data);
     } catch (error) {
@@ -173,6 +179,7 @@ const HomePage = () => {
       setError(
         'Email not found, please re-enter email and click "Manage Subscription" again'
       );
+      setIsLoading(false);
     }
   };
 
@@ -244,7 +251,7 @@ const HomePage = () => {
             />
           </FormGroup>
         </Grid>
-
+        {isLoadingStartSub && <p>Loading...</p>}
         <div>
           <Button
             color='primary'
@@ -283,8 +290,8 @@ const HomePage = () => {
           ) : (
             <></>
           )}
-
           <div>
+            {isLoading && <p>Loading...</p>}
             {emailSent ? (
               <Box sx={{ m: 1 }}>
                 Email Sent to <b>{userEmail}</b> ! Please check your email for
