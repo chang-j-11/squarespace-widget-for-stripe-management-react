@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Referemced tjos repo [React-Stripe-Checkout](https://github.com/nicnocquee/react-stripe-checkout).
+Referenced this repo [React-Stripe-Checkout](https://github.com/nicnocquee/react-stripe-checkout).
 
 ## Available Scripts
 
